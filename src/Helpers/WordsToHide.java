@@ -16,6 +16,10 @@ public class WordsToHide {
 		words.add("happy");
 		words.add("world");
 		words.add("roof");
+		words.add("sunset");
+		words.add("school");
+		words.add("table");
+		words.add("chair");
 	}
 
 	
