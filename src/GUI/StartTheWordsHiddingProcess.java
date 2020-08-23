@@ -36,19 +36,21 @@ public class StartTheWordsHiddingProcess {
 	}
 
 	private void StartAttemptsToFitWord() {
-		StringBuilder tooManyAttempsMsg = new StringBuilder();
-		tooManyAttempsMsg.append(attemptsForFittingWord + " attemps where done to fit the word: " + currentWordFitting
-				+ ", meaning, there is no more free space in the board.");
 		while (true) {
 			if (attemptsForFittingWord >= maxAttemptsAllowedToFitWord) {
+				StringBuilder tooManyAttempsMsg = new StringBuilder();
+				tooManyAttempsMsg.append(attemptsForFittingWord + " attemps where done to fit the word: " + currentWordFitting
+						+ "... Which means there's no more free space in the board to fit this word.");
 				System.out.println(tooManyAttempsMsg);
 				attemptsForFittingWord = 0;
 				return;
 			}
+			
 			boolean validOrientationPicked = FitWordInRandomOrientation();
 			if (validOrientationPicked) {
-				break;
-			}else {
+				attemptsForFittingWord = 0;
+				return;
+			} else {
 				SetRandomRowAndCellIndexToStartFrom();
 			}
 		}
