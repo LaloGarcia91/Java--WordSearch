@@ -1,3 +1,7 @@
+
+**Java JDK 14
+
+
 **About the game**
 
 So, the main purpose of creating this game on Java, was to get better at it as well as show some Java skills. Despite the fact that there are a tons of great Java developers out there, I think I did a good job here. At least that's my personal opinion. I also built this game on JavaScript time ago, which you can see on my repositories, although that game has maaaany bad practices. By that time, I didn't know good practices as I do now. I must say, I read a book on "Clean Code" a few months ago.
@@ -6,6 +10,7 @@ So, the main purpose of creating this game on Java, was to get better at it as w
 **What I could have done but I didn't**
 
 I could have added a section so people can input words to the board game and hide them. Reason why I didn't is, it is too easy to do. And my main purpose of doing this game/project was to show off some "skills" on Java. So I added default words to hide, along with a shuffle button, so if you click it, the words re-shuffle over and over again. No matter how many times or fast you click the button, the operation time will not increase, nor the runtime memory usage.
+
 
 
 **Memory and Runtime**
