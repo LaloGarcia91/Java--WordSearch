@@ -8,6 +8,9 @@ So, the main purpose of creating this game on Java, was to get better at it as w
 I could have added a section so people can input words to the board game and hide them. Reason why I didn't is, it is too easy to do. And my main purpose of doing this game/project was to show off some "skills" on Java. So I added default words to hide, along with a shuffle button, so if you click it, the words re-shuffle over and over again. No matter how many times or fast you click the button, the operation time will not increase, nor the runtime memory usage.
 
 
+Java JDK 14
+
+
 **Memory and Runtime**
 
 I checked out the runtime memory usage and garbage collection, and everything works fine. 
