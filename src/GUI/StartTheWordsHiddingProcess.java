@@ -9,8 +9,8 @@ public class StartTheWordsHiddingProcess {
 	private WordsOrientations.FitHorizontally FitHorizontally = new WordsOrientations.FitHorizontally();
 	private Helpers.WordsToHide WordsToHide = new Helpers.WordsToHide();
 
-	private final int maxAttemptsAllowedToFitWord = 200;
-	private int attemptsForFittingWord = 1;
+	private final int maxAttemptsAllowedToFitWord = 1000;
+	private int attemptsForFittingWord = 0;
 
 	private int rowIndexToStartFittingWord;
 	private int cellIndexToStartFrom;

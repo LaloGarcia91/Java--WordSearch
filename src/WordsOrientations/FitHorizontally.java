@@ -7,13 +7,13 @@ import GUI.GUIComponents;
 public class FitHorizontally {
 
 	private GUI.ReplaceCellWithNewCell ReplaceCellWithNewCell = new GUI.ReplaceCellWithNewCell();
+	private Helpers.WordLetterIntersectsAnotherWord WordsIntersections = new Helpers.WordLetterIntersectsAnotherWord();
 	private boolean wordFits_leftToRight;
 	private boolean wordFits_rightToLeft;
 	private boolean fitsAllOrientations;
 	private int cellIndexAboutToAffect;
 	private int rowIndexAboutToAffect;
 	private JButton newLetterCellToInsert;
-	private boolean atLeastOneLetterInWordIsIntersecting = false;
 
 	public String word;
 	public int rowIndexToStartFrom;
@@ -33,12 +33,15 @@ public class FitHorizontally {
 	}
 
 	private boolean Fit() {
-		boolean wordsExistOnGame = Helpers.AtLeastOneWordIsHIdden.Check();
 		boolean fitsInValidCells = WordWillFitInAValidPlace();
-		if (!fitsInValidCells) {
-			return false;
+		if (GUIComponents.showOnlyIntersectingWordsCheckbox.isSelected()) {
+			boolean atLeastOneWordIsHidden = Helpers.AtLeastOneWordIsHIdden.Check();
+			if(atLeastOneWordIsHidden) {
+				fitsInValidCells = WordValidIntersectWithAtLeastAnotherWord();	
+			}
 		}
-		if (wordsExistOnGame && GUIComponents.showOnlyIntersectingWordsCheckbox.isSelected() && !atLeastOneLetterInWordIsIntersecting) {
+
+		if (!fitsInValidCells) {
 			return false;
 		}
 
@@ -72,23 +75,60 @@ public class FitHorizontally {
 				cellIndexToAffect = cellIndexToStartFrom - i;
 			}
 
-			boolean letterIntersectAndShareTheSameLetter = Helpers.WordLetterIntersectsWithAnotherWordLetter
-					.AreTheSame(letterAboutToFit, rowIndexToAffect, cellIndexToAffect);
+			WordsIntersections.cellLetter = letterAboutToFit;
+			WordsIntersections.rowIndexRefOfLetter = rowIndexToAffect;
+			WordsIntersections.cellIndexRefOfLetterInRow = cellIndexToAffect;
+			boolean newLetterIntersectsAnotherWordLetter = WordsIntersections.IntersectsAnExistingWord();
+			boolean newLetterIntersectsAndAreTheSameLetter = WordsIntersections
+					.IntersectsAnExistingWordAndIsTheSameLetter();
 
-			if (GUIComponents.showOnlyIntersectingWordsCheckbox.isSelected()) {
-				if (letterIntersectAndShareTheSameLetter) {
-					atLeastOneLetterInWordIsIntersecting = true;
-				} else {
-					atLeastOneLetterInWordIsIntersecting = false;
-					if(i == word.length()) {
-						return false;
-					}
+			if (newLetterIntersectsAnotherWordLetter) {
+				if (!newLetterIntersectsAndAreTheSameLetter) {
+					return false;
 				}
-			} else if (!letterIntersectAndShareTheSameLetter) {
-				return false;
 			}
 		}
 		return true;
+	}
+
+	private boolean WordValidIntersectWithAtLeastAnotherWord() {
+		int rowIndexToAffect = 0;
+		int cellIndexToAffect = 0;
+		int correctIntersections = 0;
+		int wrongIntersections = 0;
+		for (int i = 0; i < word.length(); i++) {
+			String letterAboutToFit = String.valueOf(word.charAt(i)).toUpperCase();
+
+			if (wordFits_leftToRight || fitsAllOrientations) {
+				rowIndexToAffect = rowIndexToStartFrom;
+				cellIndexToAffect = cellIndexToStartFrom + i;
+			} else if (wordFits_rightToLeft) {
+				rowIndexToAffect = rowIndexToStartFrom;
+				cellIndexToAffect = cellIndexToStartFrom - i;
+			}
+
+			WordsIntersections.cellLetter = letterAboutToFit;
+			WordsIntersections.rowIndexRefOfLetter = rowIndexToAffect;
+			WordsIntersections.cellIndexRefOfLetterInRow = cellIndexToAffect;
+			boolean newLetterIntersectsAnotherWordLetter = WordsIntersections.IntersectsAnExistingWord();
+			boolean newLetterIntersectsAndAreTheSameLetter = WordsIntersections
+					.IntersectsAnExistingWordAndIsTheSameLetter();
+
+			if (newLetterIntersectsAnotherWordLetter) {
+				if (newLetterIntersectsAndAreTheSameLetter) {
+					correctIntersections++;
+				} else {
+					wrongIntersections++;
+				}
+			}
+		}
+		if (wrongIntersections > 0) {
+			return false;
+		}
+		if (correctIntersections > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	private void ReplaceBoardCellWithNewOne() {

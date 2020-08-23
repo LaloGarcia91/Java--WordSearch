@@ -17,9 +17,7 @@ public class ShowOnlyIntersecringWords {
 		checkbox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(checkbox.isSelected()) {
-					System.out.println("clickedd !!");
-				} else {
-					
+					GameStates.ShuffleBoard.Shuffle();
 				}
 			}
 		});
