@@ -12,6 +12,7 @@ public class GUIComponents {
 	public static JPanel boardLettersWrapper = new JPanel();
 	public static JPanel wordsToFindWrapper = new JPanel();
 	public static JCheckBox uncoverWordsCheckbox = new JCheckBox();
+	public static JCheckBox showOnlyIntersectingWordsCheckbox = new JCheckBox();
 
 	public static ArrayList<JPanel> allPanelRows = new ArrayList<JPanel>();
 	public static final int cellsWidth = 50;
@@ -58,13 +59,13 @@ public class GUIComponents {
 		button.setOpaque(true);
 
 		new Events.ReGenerateBoardButton(button);
-		
+
 		wrapper.add(button);
-		wrapper.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+		wrapper.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		wrapper.setMaximumSize(wrapper.getPreferredSize());
 		return wrapper;
 	}
-	
+
 	public static JPanel GetTheRightWrapper() {
 		int width = 200;
 		int height = MainWindow.window.getPreferredSize().height;
@@ -75,16 +76,16 @@ public class GUIComponents {
 		boardRightOptionsWrapper.setOpaque(true);
 		return boardRightOptionsWrapper;
 	}
-	
+
 	public static JPanel GetWrapperWithAllMissingWordsList() {
 		wordsToFindWrapper.setLayout(new BoxLayout(GUIComponents.wordsToFindWrapper, BoxLayout.Y_AXIS));
-		
+
 		for (int i = 0; i < GUIComponents.WordsToHide.words.size(); i++) {
 			String word = GUIComponents.WordsToHide.words.get(i);
 			JLabel label = new JLabel(word);
 			label.setForeground(Color.RED);
 			label.setFont(new Font(null, Font.BOLD, 18));
-			
+
 			JPanel panel = new JPanel();
 			panel.setOpaque(false);
 			panel.add(label);
@@ -94,13 +95,24 @@ public class GUIComponents {
 		wordsToFindWrapper.setMaximumSize(wordsToFindWrapper.getPreferredSize());
 		return wordsToFindWrapper;
 	}
-	
+
 	public static JPanel GetCheckboxForDiscoveringTheWordsOnBoard() {
 		JPanel wrapper = new JPanel();
 		uncoverWordsCheckbox.setText("Discover words");
-        wrapper.add(uncoverWordsCheckbox);
-    	wrapper.setMaximumSize(wrapper.getPreferredSize());
-    	new Events.DiscoverWordsBtn(uncoverWordsCheckbox);
+		wrapper.add(uncoverWordsCheckbox);
+		wrapper.setMaximumSize(wrapper.getPreferredSize());
+		new Events.DiscoverWordsBtn(uncoverWordsCheckbox);
+		return wrapper;
+	}
+
+	public static JPanel GetCheckboxForShowOnlyIntersectigWords() {
+		JPanel wrapper = new JPanel();
+		JLabel text = new JLabel();
+		text.setText("<html>Show only<br>intersecting words.</html>");
+		wrapper.add(showOnlyIntersectingWordsCheckbox);
+		wrapper.add(text);
+		wrapper.setMaximumSize(wrapper.getPreferredSize());
+		new Events.ShowOnlyIntersecringWords(showOnlyIntersectingWordsCheckbox);
 		return wrapper;
 	}
 

@@ -17,11 +17,11 @@ public class StartTheWordsHiddingProcess {
 	private String currentWordFitting;
 
 	public StartTheWordsHiddingProcess() {
-		SetRowAndCellIndexToStartFrom();
+		SetRandomRowAndCellIndexToStartFrom();
 		StartHiddingAllWords();
 	}
 
-	private void SetRowAndCellIndexToStartFrom() {
+	private void SetRandomRowAndCellIndexToStartFrom() {
 		rowIndexToStartFittingWord = RowsAndCells.GetRandomRowIndex();
 		cellIndexToStartFrom = RowsAndCells.GetRandomCellIndexFromRow(rowIndexToStartFittingWord);
 	}
@@ -39,17 +39,18 @@ public class StartTheWordsHiddingProcess {
 		StringBuilder tooManyAttempsMsg = new StringBuilder();
 		tooManyAttempsMsg.append(attemptsForFittingWord + " attemps where done to fit the word: " + currentWordFitting
 				+ ", meaning, there is no more free space in the board.");
-		
 		while (true) {
 			if (attemptsForFittingWord >= maxAttemptsAllowedToFitWord) {
 				System.out.println(tooManyAttempsMsg);
 				attemptsForFittingWord = 0;
 				return;
 			}
-			if (FitWordInRandomOrientation()) {
+			boolean validOrientationPicked = FitWordInRandomOrientation();
+			if (validOrientationPicked) {
 				break;
+			}else {
+				SetRandomRowAndCellIndexToStartFrom();
 			}
-			SetRowAndCellIndexToStartFrom();
 		}
 	}
 

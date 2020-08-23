@@ -17,6 +17,7 @@ public class AssemblyTheGameGUIComponents {
 		AddRightWrapperInWindow();
 		AddShuffleButtonToWrapper();
 		AddTheDiscoverWordsCheckbox();
+		AddTheShowOnlyIntersectingWordsCheckbox();
 		DisplayTheListOfTheHiddenWords();
 		
 		MainWindow.pack();
@@ -34,6 +35,11 @@ public class AssemblyTheGameGUIComponents {
 	private void AddShuffleButtonToWrapper() {
 		JPanel shuffleBtn = GUIComponents.GetTheSfuffleButton();
 		GUIComponents.boardRightOptionsWrapper.add(shuffleBtn);
+	}
+	
+	private void AddTheShowOnlyIntersectingWordsCheckbox() {
+		JPanel panel = GUIComponents.GetCheckboxForShowOnlyIntersectigWords();
+		GUIComponents.boardRightOptionsWrapper.add(panel);
 	}
 	
 	private void AddTheDiscoverWordsCheckbox() {

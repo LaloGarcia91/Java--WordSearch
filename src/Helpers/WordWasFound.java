@@ -8,7 +8,9 @@ public class WordWasFound {
 
 	public static boolean Check(String word) {
 		ArrayList<JButton> allWordLettersCells = Helpers.BoardCellsInfo.allWordsHiddenInBoard.get(word);
-		
+		if(allWordLettersCells == null) {
+			return false;
+		}
 		int wordLettersLen = allWordLettersCells.size();
 		int wordLettersAlreadyClicked = 0;
 		for (JButton letterCell : allWordLettersCells) {

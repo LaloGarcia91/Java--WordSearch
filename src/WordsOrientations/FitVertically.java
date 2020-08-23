@@ -2,6 +2,8 @@ package WordsOrientations;
 
 import javax.swing.JButton;
 
+import GUI.GUIComponents;
+
 public class FitVertically {
 	private GUI.ReplaceCellWithNewCell ReplaceCellWithNewCell = new GUI.ReplaceCellWithNewCell();
 	private boolean wordFits_topToBottom;
@@ -10,6 +12,7 @@ public class FitVertically {
 	private int cellIndexAboutToAffect;
 	private int rowIndexAboutToAffect;
 	private JButton newLetterCellToInsert;
+	private boolean atLeastOneLetterInWordIsIntersecting = false;
 
 	public String word;
 	public int rowIndexToStartFrom;
@@ -29,7 +32,12 @@ public class FitVertically {
 	}
 
 	private boolean Fit() {
-		if (!WordWillFitInAValidPlace()) {
+		boolean wordsExistOnGame = Helpers.AtLeastOneWordIsHIdden.Check();
+		boolean fitsInValidCells = WordWillFitInAValidPlace();
+		if (!fitsInValidCells) {
+			return false;
+		}
+		if (wordsExistOnGame && GUIComponents.showOnlyIntersectingWordsCheckbox.isSelected() && !atLeastOneLetterInWordIsIntersecting) {
 			return false;
 		}
 
@@ -54,7 +62,7 @@ public class FitVertically {
 		int cellIndexToAffect = 0;
 		for (int i = 0; i < word.length(); i++) {
 			String letterAboutToFit = String.valueOf(word.charAt(i)).toUpperCase();
-
+			
 			if (wordFits_topToBottom || fitsAllOrientations) {
 				rowIndexToAffect = rowIndexToStartFrom + i;
 				cellIndexToAffect = cellIndexToStartFrom;
@@ -63,9 +71,19 @@ public class FitVertically {
 				cellIndexToAffect = cellIndexToStartFrom;
 			}
 
-			boolean validate = Helpers.WordsShareTheSameLetter.Check(letterAboutToFit, rowIndexToAffect,
-					cellIndexToAffect);
-			if (!validate) {
+			boolean letterIntersectAndShareTheSameLetter = Helpers.WordLetterIntersectsWithAnotherWordLetter
+					.AreTheSame(letterAboutToFit, rowIndexToAffect, cellIndexToAffect);
+
+			if (GUIComponents.showOnlyIntersectingWordsCheckbox.isSelected()) {
+				if (letterIntersectAndShareTheSameLetter) {
+					atLeastOneLetterInWordIsIntersecting = true;
+				} else {
+					atLeastOneLetterInWordIsIntersecting = false;
+					if(i == word.length()) {
+						return false;
+					}
+				}
+			} else if (!letterIntersectAndShareTheSameLetter) {
 				return false;
 			}
 		}
